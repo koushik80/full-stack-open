@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import Person from "./components/Person";
+import Alert from "./components/Alert";
 
 
 const App = () => {
@@ -13,11 +14,17 @@ const App = () => {
 
   const addPerson = (e) => {
     e.preventDefault()
-    const noteObject = {
+    const personObject = {
       name: newName,
     }
 
-    setPersons(persons.concat(noteObject))
+    if (persons.find(person =>
+      person.name === personObject.name)) {
+      Alert(personObject)
+    } else {
+      setPersons(persons.concat(personObject))
+    }
+
     setNewName('')
   }
 
