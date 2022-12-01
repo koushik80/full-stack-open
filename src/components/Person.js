@@ -1,5 +1,4 @@
 const Person = ({ person, i }) =>
-    <li key={i}>{person.name}</li>
-
+    <li key={i}>{person.name} {person.number}</li>
 
 export default Person;

@@ -7,29 +7,35 @@ import Alert from "./components/Alert";
 
 const App = () => {
 
-  const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas' }
-  ])
-  const [ newName, setNewName ] = useState('')
+  const [ persons, setPersons ] = useState([])
+  const [newName, setNewName] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
 
   const addPerson = (e) => {
     e.preventDefault()
     const personObject = {
       name: newName,
+      number: newNumber
     }
 
-    if (persons.find(person =>
-      person.name === personObject.name)) {
+  const checkPerson = persons.find(person =>
+    person.name === personObject.name)
+
+    if (checkPerson && checkPerson.number === newNumber) {
       Alert(personObject)
     } else {
       setPersons(persons.concat(personObject))
     }
 
     setNewName('')
+    setNewNumber('')
   }
 
   const handleNameChange = (e) => {
     setNewName(e.target.value)
+  }
+  const handleNumberChange = (e) => {
+    setNewNumber(e.target.value)
   }
 
   return (
@@ -40,6 +46,12 @@ const App = () => {
           name: <input
             value={newName}
             onChange={handleNameChange}
+          />
+        </div>
+        <div>
+          number: <input
+            value={newNumber}
+            onChange={handleNumberChange}
           />
         </div>
         <div>
