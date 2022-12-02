@@ -53,7 +53,6 @@ const App = () => {
     setFilter(e.target.value)
   };
 
-
   const filteredPersons =
     filter === '' ? persons : persons.filter(person =>
       person.name.toLowerCase().includes(filter.toLowerCase()));       //filtering logic to show case insensitive and return result that contain uppercase
