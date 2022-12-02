@@ -1,4 +1,4 @@
-const Form = ({ addPerson, newName, handleNameChange, newNumber, handleNumberChange }) => (
+const PersonForm = ({ addPerson, newName, handleNameChange, newNumber, handleNumberChange }) => (
   <div>
     <form onSubmit={addPerson}>
       <div>
@@ -20,4 +20,4 @@ const Form = ({ addPerson, newName, handleNameChange, newNumber, handleNumberCha
   </div>
 )
 
-export default Form;
+export default PersonForm;
