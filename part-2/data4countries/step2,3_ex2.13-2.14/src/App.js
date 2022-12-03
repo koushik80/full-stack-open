@@ -1,4 +1,4 @@
-//ex: 2.12
+//ex: 2.13-2.14
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Filter from "./components/Filter";
@@ -22,7 +22,6 @@ const App = () => {
   const handleFilter = (e) => {
     setFilter(e.target.value)
   };
-
 
   return (
     <div>
