@@ -1,7 +1,7 @@
 import axios from "axios";
 const baseUrl = "http://localhost:3001/persons";
 
-const getAll = () => {
+const getPeople = () => {
   const request = axios.get(baseUrl)
   return request.then(response => {
     return response.data
@@ -30,6 +30,6 @@ const remove = id => {
   })
 };
 
-const forward = { getAll, create, update, remove }
+const forwardPersons = { getPeople, create, update, remove }
 
-export default forward;
+export default forwardPersons;

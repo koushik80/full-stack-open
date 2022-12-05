@@ -23,6 +23,7 @@ const update = (id, newObject) => {
   return request.then(response => response.data)
 };
 
+const forwardNotes = { getAll, create, update };
 
-export default { getAll, create, update };
+export default forwardNotes;
 

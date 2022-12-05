@@ -7,6 +7,7 @@ import Alert from "./components/Alert";
 import PersonForm from "./components/PersonForm";
 import Filter from "./components/Filter";
 import personService from "./services/persons";
+import Notification from './components/Notification'
 
 const App = () => {
 
@@ -14,10 +15,11 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [filter, setFilter] = useState('');
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => { // connection with the backend
     personService
-      .getAll()
+      .getPeople() //used get request from the backend via axios.ref: services->persons.js
       .then(initialPersons => {
         setPersons(initialPersons)
       })
@@ -49,6 +51,26 @@ const App = () => {
     setNewNumber('')
   }
 
+  const deletePerson = (id) => {
+    const person = persons.find(p => p.id === id);
+    const confirmDelete = window.confirm(`If you want to delete ${person.name} click OK`);
+    if (confirmDelete) {
+      personService
+        .remove(id) //by using an HTTP DELETE request with axios in the backend.ref: services->persons.js
+        .then(returnedPerson => {
+          persons.map(person => person.id !== id ? person : returnedPerson)
+        })
+      setPersons(persons.filter(person => person.id !== id))
+      setNotification({ //to display notification
+        text: `${person.name} has been deleted successfully from the phonebook.`,
+        type: 'notification'
+      })
+      setTimeout(() => { //added timing to display notification
+        setNotification(null)
+      }, 5000)
+    }
+  };
+
   const handleNameChange = (e) => {
     setNewName(e.target.value)
   };
@@ -66,21 +88,27 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2> <br />
+      <h2>Phonebook</h2><br />
+      <Notification
+        notification={notification}
+      />
       <Filter
         filter={filter}
         handleFilter={handleFilter}
-      />
-      <h3>Add a new</h3>
+      /><br /><hr />
+      <h3>Add a new</h3><br />
       <PersonForm
         addPerson={addPerson}
         newName={newName}
         handleNameChange={handleNameChange}
         newNumber={newNumber}
         handleNumberChange={handleNumberChange}
+      /><br />
+      <h3>Numbers</h3><br /><hr />
+      <Persons
+        persons={filteredPersons}
+        deletePerson={deletePerson}
       />
-      <h3>Numbers</h3>
-        <Persons persons={filteredPersons} />
     </div>
   )
 };

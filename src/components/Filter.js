@@ -9,6 +9,6 @@ const Filter = ({ filter, handleFilter }) => (
       </div>
     </form>
   </div>
-)
+);
 
 export default Filter;
