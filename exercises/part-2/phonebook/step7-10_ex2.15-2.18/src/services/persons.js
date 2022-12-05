@@ -30,6 +30,6 @@ const remove = id => {
   })
 };
 
-const forwardPersons = { getPeople, create, update, remove }
+const connectPersonsServer = { getPeople, create, update, remove }
 
-export default forwardPersons;
+export default connectPersonsServer;

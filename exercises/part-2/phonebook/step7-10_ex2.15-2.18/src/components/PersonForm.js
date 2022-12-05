@@ -14,7 +14,15 @@ const PersonForm = ({ addPerson, newName, handleNameChange, newNumber, handleNum
         /><br />
       </div><br />
       <div>
-        <button type="submit">add</button>
+        <button
+          type="submit"
+          style={{
+            color: "white",
+            backgroundColor: "teal",
+            padding: "5px",
+            borderRadius: "5px"
+      }}
+        >add</button>
       </div>
     </form>
   </div>
