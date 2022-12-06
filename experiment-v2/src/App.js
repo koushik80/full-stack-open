@@ -1,7 +1,7 @@
 //ex: experimental
 // https://fullstackopen.com/en/part2/altering_data_in_server
 // running command in the local server:
-// npx json - server--port 3001 --watch db2.json
+// npx json-server --port 3001 --watch db2.json
 
 import { useState, useEffect } from "react";
 import Note from "./components/Note";
