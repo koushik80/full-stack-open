@@ -42,8 +42,8 @@ const App = () => {
     setBlogs(blogs)
   }
 
-  const handleLogin = async (event) => {
-    event.preventDefault()
+  const handleLogin = async (e) => {
+    e.preventDefault()
 
     try {
       const user = await loginService.login({
@@ -65,27 +65,27 @@ const App = () => {
     }
   }
 
-  const handleLogout = async (event) => {
-    event.preventDefault()
+  const handleLogout = async (e) => {
+    e.preventDefault()
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
   }
 
-  const handleTitleChange = (event) => {
-    setNewTitle(event.target.value)
+  const handleTitleChange = (e) => {
+    setNewTitle(e.target.value)
   }
 
-  const handleAuthorChange = (event) => {
-    setNewAuthor(event.target.value)
+  const handleAuthorChange = (e) => {
+    setNewAuthor(e.target.value)
   }
 
-  const handleUrlChange = (event) => {
-    setNewUrl(event.target.value)
+  const handleUrlChange = (e) => {
+    setNewUrl(e.target.value)
   }
 
 
-  const addBlog = async (event) => {
-    event.preventDefault()
+  const addBlog = async (e) => {
+    e.preventDefault()
     const BlogToAdd = {
       title: newTitle,
       author: newAuthor,
@@ -108,7 +108,7 @@ const App = () => {
       }, 5000)
     } catch(exception) {
       setErrorMessage(
-        `Cannot add blog ${BlogToAdd.title}`
+        `Can not add blog ${BlogToAdd.title}`
       )
       setSuccessMessage(null)
       setTimeout(() => {
@@ -119,7 +119,7 @@ const App = () => {
 
     return (
     <div>
-      <h2>Blogs</h2>
+      <h2>Blogs</h2> <hr />
       <Notification errorMessage={errorMessage} successMessage={successMessage} />
       {user === null ?
         <LoginForm

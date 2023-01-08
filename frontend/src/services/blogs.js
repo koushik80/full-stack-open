@@ -1,4 +1,3 @@
-/* eslint-disable import/no-anonymous-default-export */
 import axios from 'axios'
 const baseUrl = '/api/blogs'
 
@@ -41,5 +40,5 @@ const remove = async id => {
   return response.data
 }
 
-
+// eslint-disable-next-line
 export default { getAll, create, update, setToken, remove }

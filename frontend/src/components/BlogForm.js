@@ -5,13 +5,13 @@ const BlogForm = ({onSubmit, newTitle, handleTitleChange, newAuthor, handleAutho
     <form onSubmit={onSubmit}>
         <div>
             Title: <input value={newTitle} onChange={handleTitleChange} />
-        </div>
+        </div><br />
         <div>
             Author: <input value={newAuthor} onChange={handleAuthorChange} />
-        </div>
+        </div><br />
         <div>
             Url: <input value={newUrl} onChange={handleUrlChange} />
-        </div>
+        </div><br />
         <div>
             <button type="submit">add</button>
         </div>
