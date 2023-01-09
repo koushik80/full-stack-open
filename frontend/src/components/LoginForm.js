@@ -1,31 +1,42 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-const LoginForm = ({handleLogin, username, setUsername, password, setPassword}) => {
+const LoginForm = (props) => {
   return (
-    <form onSubmit={handleLogin}>
-      <div>
-        username
-          <input
+    <form onSubmit={props.handleLogin}>
+      <div style={{ color:'#33539E', fontWeight:'bold', padding: '5px 2px' }}>
+        Username
+        <input
+          id="username"
           type="text"
           autoComplete=""
-          value={username}
+          value={props.username}
           name="Username"
-          onChange={({ target }) => setUsername(target.value)}
+          onChange={({ target }) => props.setUsername(target.value)}
         />
-      </div>
-      <div>
-        password
-          <input
+      </div><br />
+      <div style={{ color:'#33539E', fontWeight:'bold', padding: '5px 2px' }}>
+        Password
+        <input
+          id="password"
           type="password"
           autoComplete=""
-          value={password}
+          value={props.password}
           name="Password"
-          onChange={({ target }) => setPassword(target.value)}
+          onChange={({ target }) => props.setPassword(target.value)}
         />
-      </div>
-      <button type="submit">login</button>
+      </div><br />
+      <button type="submit" style={{ color:'#56C506', fontWeight:'bold' }}>Login</button>
     </form>
   )
+}
+
+LoginForm.propTypes = {
+  handleLogin: PropTypes.func.isRequired,
+  setUsername: PropTypes.func.isRequired,
+  setPassword: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired
 }
 
 export default LoginForm

@@ -1,24 +1,24 @@
 //local server:
 //npx json-server --port 3001 --watch db.json
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [ newTitle, setNewTitle ] = useState('')
-  const [ newAuthor, setNewAuthor ] = useState('')
-  const [ newUrl, setNewUrl ] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(null)
+
+  const blogFormRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -32,7 +32,6 @@ const App = () => {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
       blogService.setToken(user.token)
-
       getAllBlogs()
     }
   }, [])
@@ -71,44 +70,22 @@ const App = () => {
     setUser(null)
   }
 
-  const handleTitleChange = (e) => {
-    setNewTitle(e.target.value)
-  }
-
-  const handleAuthorChange = (e) => {
-    setNewAuthor(e.target.value)
-  }
-
-  const handleUrlChange = (e) => {
-    setNewUrl(e.target.value)
-  }
-
-
-  const addBlog = async (e) => {
-    e.preventDefault()
-    const BlogToAdd = {
-      title: newTitle,
-      author: newAuthor,
-      url: newUrl
-    }
-
+  const createBlog = async (BlogToAdd) => {
     try {
-      await blogService
+      blogFormRef.current.toggleVisibility()
+      const createdBlog = await blogService
         .create(BlogToAdd)
-      setNewTitle('')
-      setNewAuthor('')
-      setNewUrl('')
       setSuccessMessage(
         `Blog ${BlogToAdd.title} was successfully added`
       )
-      getAllBlogs()
+      setBlogs(blogs.concat(createdBlog))
       setErrorMessage(null)
       setTimeout(() => {
         setSuccessMessage(null)
       }, 5000)
     } catch(exception) {
       setErrorMessage(
-        `Can not add blog ${BlogToAdd.title}`
+        `Cannot add blog ${BlogToAdd.title}`
       )
       setSuccessMessage(null)
       setTimeout(() => {
@@ -117,9 +94,68 @@ const App = () => {
     }
   }
 
-    return (
+  const updateBlog = async (BlogToUpdate) => {
+    try {
+      const updatedBlog = await blogService
+        .update(BlogToUpdate)
+      setSuccessMessage(
+        `Blog ${BlogToUpdate.title} was successfully updated`
+      )
+      setBlogs(blogs.map(blog => blog.id !== BlogToUpdate.id ? blog : updatedBlog))
+      setErrorMessage(null)
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
+    } catch(exception) {
+      setErrorMessage(
+        `Cannot update blog ${BlogToUpdate.title}`
+      )
+      setSuccessMessage(null)
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
+    }
+  }
+
+  const deleteBlog = async (BlogToDelete) => {
+    try {
+      if (window.confirm(`Delete ${BlogToDelete.title} ?`)) {
+        blogService
+          .remove(BlogToDelete.id)
+        setSuccessMessage(
+          `Blog ${BlogToDelete.title} was successfully deleted`
+        )
+        setBlogs(blogs.filter(blog => blog.id !== BlogToDelete.id))
+        setErrorMessage(null)
+        setTimeout(() => {
+          setSuccessMessage(null)
+        }, 5000)
+      }
+    } catch(exception) {
+      setErrorMessage(
+        `Cannot delete blog ${BlogToDelete.title}`
+      )
+      setSuccessMessage(null)
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
+    }
+  }
+
+  const blogLikes = (l1, l2) => l2.likes - l1.likes
+
+  const appColor = {
+    'color': '#5874DC',
+    'fontSize': 80
+  }
+
+  const cBlog = {
+    'color': '#428CDA'
+  }
+
+  return (
     <div>
-      <h2>Blogs</h2> <hr />
+      <h2 style={appColor}>Blogs</h2> <hr color='red' />
       <Notification errorMessage={errorMessage} successMessage={successMessage} />
       {user === null ?
         <LoginForm
@@ -130,19 +166,20 @@ const App = () => {
           password={password}
         /> :
         <div>
-          <h2>Add new blog</h2>
-          <BlogForm
-            onSubmit={addBlog}
-            newTitle={newTitle}
-            handleTitleChange={handleTitleChange}
-            newAuthor={newAuthor}
-            handleAuthorChange={handleAuthorChange}
-            newUrl={newUrl}
-            handleUrlChange={handleUrlChange}
-          />
-          <p>{user.name} logged in<button onClick={handleLogout} type="submit">logout</button></p>
-          {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
+          <p>{user.name} logged in<button onClick={handleLogout} type="submit" style={{ color:'red', fontWeight:'bold' }}>Logout</button></p>
+          <Togglable buttonLabel="Create a new blog" ref={blogFormRef}>
+            <h2 style={cBlog}>Create Blog</h2>
+            <BlogForm
+              createBlog={createBlog}
+            />
+          </Togglable> <br />
+          {blogs.sort(blogLikes).map(blog =>
+            <Blog
+              key={blog.id}
+              blog={blog}
+              updateBlog={updateBlog}
+              deleteBlog={deleteBlog}
+            />
           )}
         </div>
       }
