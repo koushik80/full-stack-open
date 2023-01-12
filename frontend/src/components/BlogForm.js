@@ -33,16 +33,16 @@ const BlogForm = ({ createBlog }) => {
   return (
     <form onSubmit={addBlog}>
       <div style={{ color:'#4ADEDE', fontWeight:'bold' }}>
-        Title: <input value={newTitle} onChange={handleTitleChange} />
+        Title: <input id="title" value={newTitle} onChange={handleTitleChange} />
       </div><br />
       <div style={{ color:'#4ADEDE', fontWeight:'bold' }}>
-        Author: <input value={newAuthor} onChange={handleAuthorChange} />
+        Author: <input id="author" value={newAuthor} onChange={handleAuthorChange} />
       </div><br />
       <div style={{ color:'#4ADEDE', fontWeight:'bold' }}>
-        Url: <input value={newUrl} onChange={handleUrlChange} />
+        Url: <input id="url" value={newUrl} onChange={handleUrlChange} />
       </div><br />
       <div>
-        <button type="submit" style={{ color:'#120C6E', fontWeight:'bold' }}>Add</button>
+        <button id="login-button" type="submit" style={{ color:'#120C6E', fontWeight:'bold' }}>Add</button>
       </div>
     </form>
   )
