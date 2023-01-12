@@ -26,7 +26,7 @@ const LoginForm = (props) => {
           onChange={({ target }) => props.setPassword(target.value)}
         />
       </div><br />
-      <button type="submit" style={{ color:'#56C506', fontWeight:'bold' }}>Login</button>
+      <button id="login-button" type="submit" style={{ color:'#56C506', fontWeight:'bold' }}>Login</button>
     </form>
   )
 }
