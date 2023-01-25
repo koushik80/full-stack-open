@@ -30,7 +30,7 @@ const AnecdoteList = () => {
       return anecdotes
     }
     const regex = new RegExp(filter, 'i')
-    return anecdotes.filter(anecdote => anecdote.content.match(regex))
+    return anecdotes.filter(anecdote => anecdote.content?.match(regex))
   })
 
   const voteHandler = (anecdote) => {

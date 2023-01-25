@@ -17,21 +17,12 @@ const createNew = async (content) => {
     return response.data
 }
 
-/*
-const update = async objectToUpdate => {
-    const response = await axios.put(`${baseUrl}/${objectToUpdate.id}`, objectToUpdate)
-    return response.data
-  }
-  */
 
 const update = async (id) => {
-    const updatedAnecdote = await axios.get(`${baseUrl}/${id}`)
-    const changedAnecdote = {
-        ...updatedAnecdote.data,
-        votes: updatedAnecdote.data.votes + 1
-    }
-    const response = await axios.put(`${baseUrl}/${id}`, changedAnecdote)
-    return response.data
+    const { data } = await axios.get(`${baseUrl}/${id}`)
+
+    const response = await axios.put(`${baseUrl}/${id}`, { ...data, votes: data.votes + 1 })
+    return response?.data
 }
 
 // eslint-disable-next-line
